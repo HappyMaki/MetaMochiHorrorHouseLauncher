@@ -13,7 +13,7 @@ def main():
     if versionUtil.isNewVersionAvailable():
         versionUtil.getLatestVersion()
         versionUtil.promoteTempToMain()
-
+        versionUtil.cleanLocal("temp")
     if not versionUtil.isNewVersionAvailable():
         startGame()
     else:

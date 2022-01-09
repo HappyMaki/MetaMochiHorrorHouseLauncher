@@ -59,6 +59,11 @@ class VersionUtil:
         self.updateLocalVersionNumber(self.temp_dir)
 
     def downloadLatestRelease(self):
+        build_path = "StandaloneWindows64"
+        self.cleanLocal(build_path)
+        if os.path.exists(build_path):
+            os.removedirs(build_path)
+
         self.local_filename = os.path.join(self.temp_dir, self.latest_release_url.split("/")[-1])
         r = requests.get(self.latest_release_url, allow_redirects=True)
         open(self.local_filename, 'wb').write(r.content)
@@ -80,4 +85,3 @@ class VersionUtil:
         self.unzipLatestRelease()
         self.deleteZip()
         self.updateLocalVersionNumber()
-        self.cleanLocal("temp")
