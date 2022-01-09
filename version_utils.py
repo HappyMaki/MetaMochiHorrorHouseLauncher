@@ -71,8 +71,8 @@ class VersionUtil:
         os.remove(self.local_filename)
 
     def promoteTempToMain(self):
-        os.rename(os.path.join(self.temp_dir, "version.txt"), "version.txt")
-        os.rename(os.path.join(self.temp_dir, "build/StandaloneWindows64"), "build/StandaloneWindows64")
+        os.rename(os.path.join(self.temp_dir, "build/StandaloneWindows64"), "StandaloneWindows64")
+
 
     def getLatestVersion(self):
         self.cleanLocal(self.temp_dir)
@@ -80,4 +80,4 @@ class VersionUtil:
         self.unzipLatestRelease()
         self.deleteZip()
         self.updateLocalVersionNumber()
-        
+        self.cleanLocal("temp")
