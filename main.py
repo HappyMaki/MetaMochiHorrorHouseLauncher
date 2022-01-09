@@ -14,6 +14,15 @@ def main():
         versionUtil.getLatestVersion()
         versionUtil.promoteTempToMain()
         versionUtil.cleanLocal("temp")
+        versionUtil.updateLocalVersionNumber()
+
+        print(versionUtil.current_version)
+        print(versionUtil.latest_release_version)
+        print(versionUtil.latest_release_url)
+
+    del(versionUtil)
+
+    versionUtil = VersionUtil("https://api.github.com/repos/HappyMaki/metamochihorrorhouse-Releases/releases")
     if not versionUtil.isNewVersionAvailable():
         startGame()
     else:

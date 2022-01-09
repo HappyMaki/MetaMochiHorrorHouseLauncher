@@ -84,4 +84,3 @@ class VersionUtil:
         self.downloadLatestRelease()
         self.unzipLatestRelease()
         self.deleteZip()
-        self.updateLocalVersionNumber()
