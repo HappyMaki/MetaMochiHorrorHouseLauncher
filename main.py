@@ -4,6 +4,7 @@ import os
 import json
 import zipfile
 
+
 class VersionUtil:
     def __init__(self, gitReleaseUrl):
         self.temp_dir = "temp"
@@ -67,6 +68,7 @@ class VersionUtil:
 
         self.local_filename = os.path.join(self.temp_dir, self.latest_release_url.split("/")[-1])
         r = requests.get(self.latest_release_url, allow_redirects=True)
+        print(f"Downloaded: {int(r.headers.get('content-length'))/1024/1024} MB")
         open(self.local_filename, 'wb').write(r.content)
 
     def unzipLatestRelease(self):
@@ -77,17 +79,27 @@ class VersionUtil:
         os.remove(self.local_filename)
 
     def promoteTempToMain(self):
-        os.rename(os.path.join(self.temp_dir, "build/StandaloneWindows64"), "StandaloneWindows64")
+        main_path = "StandaloneWindows64"
+        # if not os.path.exists(main_path):
+        #     os.makedirs(main_path)
+        os.rename(os.path.join(self.temp_dir, f"build/{main_path}"), main_path)
 
 
     def getLatestVersion(self):
+        print("Cleaning Local Files")
         self.cleanLocal(self.temp_dir)
+
+        print("Downloading")
         self.downloadLatestRelease()
+
+        print("Unzipping")
         self.unzipLatestRelease()
+
+        print("Cleaning temp files")
         self.deleteZip()
 
 def startGame():
-    print("starting game!")
+    print("Starting Game")
     subprocess.Popen(["StandaloneWindows64/StandaloneWindows64.exe"])
     os._exit(0)
     pass
@@ -95,14 +107,15 @@ def startGame():
 def main():
     versionUtil = VersionUtil("https://api.github.com/repos/HappyMaki/metamochihorrorhouse-Releases/releases")
     if versionUtil.isNewVersionAvailable():
+        print(f"Current Version: {versionUtil.current_version}")
+        print(f"Latest Available Version: {versionUtil.latest_release_version}")
+
         versionUtil.getLatestVersion()
         versionUtil.promoteTempToMain()
         versionUtil.cleanLocal("temp")
         versionUtil.updateLocalVersionNumber()
 
-        print(versionUtil.current_version)
-        print(versionUtil.latest_release_version)
-        print(versionUtil.latest_release_url)
+        print(f"Manual Download Url: {versionUtil.latest_release_url}")
 
     del(versionUtil)
 

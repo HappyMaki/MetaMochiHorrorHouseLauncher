@@ -1,1 +1,1 @@
-.\venv\Scripts\python.exe .\main.py
+.\venv\Scripts\python.exe -u .\main.py
