@@ -23,6 +23,8 @@ class VersionUtil:
         return json.loads(response.text)
 
     def isNewVersionAvailable(self):
+        print("Current Version: " + self.current_version)
+        print("Latest Version: " + self.latest_release_version)
         return self.current_version != self.latest_release_version
 
 
@@ -30,7 +32,7 @@ class VersionUtil:
         releases_json = self.getReleaseInformation(gitReleaseUrl)
         for release in releases_json:
             if release.get("tag_name") == "latest":
-                release_version = release.get("name")[10:].replace(".zip", f"{release.get('id')}")
+                release_version = release.get("name")[10:].replace(".zip", f"{release.get('id')}") + "_" + release.get("assets")[0].get("updated_at")
                 release_download_url = release.get("assets")[0].get("browser_download_url")
                 return release_version, release_download_url
         raise Exception(f"Could not find or parse release information from {gitReleaseUrl}")
