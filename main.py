@@ -58,7 +58,7 @@ class VersionUtil:
                         os.rmdir(file_path)
                 except Exception as e:
                     print(e)
-        self.updateLocalVersionNumber(self.temp_dir)
+        self.updateLocalVersionNumber()
 
     def downloadLatestRelease(self):
         build_path = "StandaloneWindows64"
@@ -82,7 +82,7 @@ class VersionUtil:
         main_path = "StandaloneWindows64"
         # if not os.path.exists(main_path):
         #     os.makedirs(main_path)
-        os.rename(os.path.join(self.temp_dir, f"build/{main_path}"), main_path)
+        os.rename(self.temp_dir, main_path)
 
 
     def getLatestVersion(self):
@@ -100,7 +100,7 @@ class VersionUtil:
 
 def startGame():
     print("Starting Game")
-    subprocess.Popen(["StandaloneWindows64/StandaloneWindows64.exe"])
+    subprocess.Popen(["StandaloneWindows64/MetaMochiHorrorHouse.exe"])
     os._exit(0)
     pass
 
